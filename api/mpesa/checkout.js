@@ -5,11 +5,14 @@
  *  Website: http://www.aksalj.me
  *
  *  Project : pesajs
- *  File : index.js
- *  Date : 9/5/15 11:53 AM
+ *  File : checkout
+ *  Date : 9/5/15 2:34 PM
  *  Description :
  *
  */
 'use strict';
 
-exports.MPESA = require("../api/mpesa");
+exports = module.exports = {
+    name: "Checkout",
+    wsdl: "https://safaricom.co.ke/mpesa_online/lnmo_checkout_server.php?wsdl"
+};

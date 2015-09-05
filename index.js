@@ -5,13 +5,11 @@
  *  Website: http://www.aksalj.me
  *
  *  Project : pesajs
- *  File : index
- *  Date : 9/5/15 1:07 PM
- *  Description : MPesa Services
+ *  File : index.js
+ *  Date : 9/5/15 11:53 AM
+ *  Description :
  *
  */
 'use strict';
 
-var services = require("./services");
-
-exports.CheckoutService = services.CheckoutService;
+exports.MPESA = require("./api/mpesa");
