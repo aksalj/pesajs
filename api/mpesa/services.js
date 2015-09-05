@@ -11,8 +11,8 @@
  *
  */
 'use strict';
-var soap = require('soap');
 var util = require('util');
+var soapHelper = require("../../util/soapHelper");
 
 var CHECKOUT = require("./checkout");
 
@@ -36,113 +36,107 @@ var _getService = function (name) {
     return null;
 };
 
-var _initializeSoapClientForService = function (name, options, cb) {
-    var service = _getService(name);
-    if(!service)
-        throw new Error("Service unknown");
 
-    options = options || {};
-    soap.createClient(service.url, options, function (err, client) {
-        if (err) {
-            console.error(err);
-        }
-        service.client = client || null;
-        cb(err, service.client !== null);
-    });
-};
 
 
 exports.CheckoutService = function() {
     var that = this;
-    this._service = _getService(CHECKOUT.name);
+    var _srv = _getService(CHECKOUT.name);
 
-    if(!this._service) {
+    if(!_srv) {
         throw new Error("Service unknown");
     }
 
-    var _client = this._service.client;
-    var _init = function (cb) {
-        _initializeSoapClientForService(that._service.name, null, function (err, inited) {
-            if(!inited) {
+
+    /**
+     * Create the SOAP client
+     * @param cb
+     * @private
+     */
+    var _initClient = function (cb) {
+        var opt = {
+            endpoint: CHECKOUT.endpoint
+        };
+        soapHelper.createSoapClient(_srv, opt, function(err, client) {
+            if(!client) {
                 throw new Error("Checkout Soap client not initialized!");
             } else {
-                _client = that._service.client;
+                _srv.client = client;
+                //console.info(util.inspect(_client.describe(), false, null));
                 cb(true);
             }
         });
+
     };
 
-    // Checkout Operations as documented
+    /**
+     * Send soap request
+     * @param name
+     * @param args
+     * @param callback
+     * @private
+     */
+    var _triggerOperation = function (name, args, callback) {
+        if(!_srv.client) {
+            _initClient(function(clientReady) {
+                if(clientReady) {
+                    CHECKOUT.trigger(name, _srv.client, args, callback);
+                } else {
+                    throw new Error("Checkout Soap client not ready!");
+                }
+            });
+        } else {
+            CHECKOUT.trigger(name, _srv.client, args, callback);
+        }
+    };
+
+
+
+
+
+
+    // Public API for this service
+
+    /**
+     * Initiate checkout process
+     * @param args
+     * @param callback
+     */
     this.processCheckOut = function(args, callback) {
-
-        var sendRequest = function(clientReady) {
-            if(clientReady) {
-                //console.error(util.inspect(_client.describe(), false, null));
-                _client.processCheckOut(args, callback);
-            } else {
-                throw new Error("Checkout Soap client not ready!");
-            }
-        };
-
-        if(!_client) {
-            _init(sendRequest);
-        } else {
-            sendRequest(true);
-        }
-
+        _triggerOperation("processCheckOut", args, callback);
     };
 
-    this.transactionStatusQuery = function(args, callback) {
-
-        var sendRequest = function(clientReady) {
-            if(clientReady) {
-                _client.transactionStatusQuery(args, callback);
-            } else {
-                throw new Error("Checkout Soap client not ready!");
-            }
-        };
-
-        if(!_client) {
-            _init(sendRequest);
-        } else {
-            sendRequest(true);
-        }
-
-    };
-
+    /**
+     * Confirm checkout transaction
+     * @param args
+     * @param callback
+     */
     this.confirmTransaction = function(args, callback) {
+        _triggerOperation("confirmTransaction", args, callback);
+    };
 
-        var sendRequest = function(clientReady) {
-            if(clientReady) {
-                _client.confirmTransaction(args, callback);
-            } else {
-                throw new Error("Checkout Soap client not ready!");
-            }
-        };
 
-        if(!_client) {
-            _init(sendRequest);
-        } else {
-            sendRequest(true);
-        }
+    /**
+     * Check transaction status
+     * @param args
+     * @param callback
+     */
+    this.transactionStatusQuery = function(args, callback) {
+        _triggerOperation("transactionStatusQuery", args, callback);
+    };
+
+
+    /**
+     * Receive payment notification
+     * @param args
+     * @param callback
+     */
+    this.paymentNotification = function(args, callback) {
+        // FIXME: LNMOResult??
+        // TODO: hapi/express endpoint support??
+
+        _triggerOperation("LNMOResult", args, callback);
 
     };
 
-    this.LNMOResult = function(args, callback) {
-
-        var sendRequest = function(clientReady) {
-            if(clientReady) {
-                _client.LNMOResult(args, callback);
-            } else {
-                throw new Error("Checkout Soap client not ready!");
-            }
-        };
-
-        if(!_client) {
-            _init(sendRequest);
-        } else {
-            sendRequest(true);
-        }
-
-    };
 };

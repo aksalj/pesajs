@@ -19,5 +19,5 @@ var checkout = new MPesa.CheckoutService();
 
 checkout.processCheckOut(function(err, resp) {
     console.error(err);
-    console.error(resp);
+    console.error(resp.toJSON().body);
 });

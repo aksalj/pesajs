@@ -19,6 +19,7 @@
   "author": "Salama AB <aksalj@aksalj.me>",
   "license": "MIT",
   "dependencies": {
+    "lodash": "^3.10.1",
     "request": "^2.61.0",
     "soap": "^0.9.1"
   },
