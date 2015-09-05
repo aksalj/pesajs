@@ -1,0 +1,30 @@
+{
+  "name": "pesajs",
+  "version": "0.0.0",
+  "description": "M-Pesa API binding",
+  "homepage": "https://github.com/aksalj/pesajs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aksalj/pesajs"
+  },
+  "bugs": {
+    "url": "https://github.com/aksalj/pesajs/issues",
+    "email": "aksalj@aksalj.me"
+  },
+  "keywords": [
+    "mpesa",
+    "mobile money",
+    "safaricom"
+  ],
+  "author": "Salama AB <aksalj@aksalj.me>",
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.61.0",
+    "xml2json": "^0.9.0"
+  },
+  "devDependencies": {
+    "wsdl2": "*",
+    "request-debug": "*"
+  },
+  "main": "lib/index"
+}

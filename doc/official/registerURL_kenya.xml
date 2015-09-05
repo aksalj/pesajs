@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project activeEnvironment="Default" name="registerURL_kenya" resourceRoot="" soapui-version="4.5.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="RequestBinding" type="wsdl" bindingName="{http://api-v1.gen.mm.vodafone.com/mminterface/request}RequestBinding" soapVersion="1_1" anonymous="optional" definition="file:/D:/00-SVN/SAG_R001C34LG0001/Doc/01.系统/Design%20Specification/外部接口/肯尼亚broker/WSDL/CBPInterface_Request.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:\D:\00-SVN\SAG_R001C34LG0001\Doc\01.系统\Design%20Specification\外部接口\肯尼亚broker\WSDL\CBPInterface_Request.wsdl"><con:part><con:url>file:\D:\00-SVN\SAG_R001C34LG0001\Doc\01.系统\Design%20Specification\外部接口\肯尼亚broker\WSDL\CBPInterface_Request.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://api-v1.gen.mm.vodafone.com/mminterface/request" xmlns:wsa="http://www.w3.org/2005/08/addressing/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:head_xsd="http://www.huawei.com.cn/schema/common/v2_1" xmlns:tns="http://api-v1.gen.mm.vodafone.com/mminterface/request" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:req="http://api-v1.gen.mm.vodafone.com/mminterface/request">
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://api-v1.gen.mm.vodafone.com/mminterface/request">
+      <xs:import namespace="http://www.huawei.com.cn/schema/common/v2_1" schemaLocation="parlayx_common_head_types_2_1.xsd"/>
+      <xs:element name="RequestMsg" type="xs:string"/>
+      <xs:element name="ResponseMsg" type="xs:string"/>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="RequestMessage">
+    <wsdl:part name="RequestMsg" element="tns:RequestMsg"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ResponseMessage">
+    <wsdl:part name="ResponseMsg" element="tns:ResponseMsg"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="RequestSOAPHeaderMessage">
+    <wsdl:part name="RequestSOAPHeader" element="head_xsd:RequestSOAPHeader"/>
+  </wsdl:message>
+  <wsdl:portType name="RequestMgrPortType">
+    <wsdl:operation name="GenericAPIRequest">
+      <wsdl:input message="tns:RequestMessage"></wsdl:input>
+      <wsdl:output message="tns:ResponseMessage"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="RequestBinding" type="tns:RequestMgrPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GenericAPIRequest">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:header message="tns:RequestSOAPHeaderMessage" part="RequestSOAPHeader" use="literal"/>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RequestMgrService">
+    <wsdl:port name="RequestMgrServicePort" binding="tns:RequestBinding">
+      <soap:address location="http://api-v1.gen.mm.vodafone.com/mminterface/request"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>file:\D:\00-SVN\SAG_R001C34LG0001\Doc\01.系统\Design%20Specification\外部接口\肯尼亚broker\WSDL\parlayx_common_head_types_2_1.xsd</con:url><con:content><![CDATA[<!--January 5, 2006-->
+<xsd:schema targetNamespace="http://www.huawei.com.cn/schema/common/v2_1" elementFormDefault="qualified" xmlns:parlayx_common_head_xsd="http://www.huawei.com.cn/schema/common/v2_1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="RequestSOAPHeader" type="parlayx_common_head_xsd:RequestSOAPHeader"/>
+  <xsd:complexType name="RequestSOAPHeader">
+    <xsd:sequence>
+      <xsd:element name="spId" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Identifier of third party.It's mandatory</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="spPassword" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Encrypted authentication password for partners to access the SAG.It must present if authentication type of 3rd party is SPID+Password or SPID+Password+IP.
+						The value is a character string encrypted from spId + Password + timeStamp by SHA-256. The encryption formula is as follows: spPassword = BASE64(SHA-256(spId + Password + timeStamp))</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="serviceId" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Identifier of service.It must present if 3rd party want to provide differentiated services</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="timeStamp" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Timestamp.It must present if authentication type of 3rd party is SPID+Password or SPID+Password+IP.Format is yyyyMMddHHmmss in UTC time.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints/><con:operation isOneWay="false" action="" name="GenericAPIRequest" bindingOperationName="GenericAPIRequest" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.5.38.51:8310/mminterface/registerURL</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:req="http://api-v1.gen.mm.vodafone.com/mminterface/request">
+   <soapenv:Header>
+      <tns:RequestSOAPHeader xmlns:tns="http://www.huawei.com/schema/osg/common/v2_1">
+         <tns:spId>102020</tns:spId>
+         <tns:spPassword>REQ4NTNDM0YzMjdFOEQxRUQ0RjM4MUE3NjdDMDIxRTM0RjYwOUUwMDUzRjFFNEU5QjlFNkVEQzdGMzVCMTU4RQ==</tns:spPassword>
+         <tns:timeStamp>20140223113340</tns:timeStamp>
+         <tns:serviceId>102020000</tns:serviceId>
+      </tns:RequestSOAPHeader>
+   </soapenv:Header>
+   <soapenv:Body>
+      <req:RequestMsg><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<request xmlns="http://api-v1.gen.mm.vodafone.com/mminterface/request">
+    <Transaction>
+        <CommandID>12345</CommandID>
+        <OriginatorConversationID>787879</OriginatorConversationID>
+        <Parameters>
+            <Parameter>
+                <Key>ResponseType</Key>
+                <Value>Completed</Value>
+            </Parameter>
+        </Parameters>
+        <ReferenceData>
+            <ReferenceItem>
+                <Key>ValidationURL</Key>
+                <Value>http://10.66.49.201:8099/mockC2BPaymentValidationAndConfirmationBinding</Value>
+            </ReferenceItem>
+            <ReferenceItem>
+                <Key>ConfirmationURL</Key>
+                <Value>http://10.66.49.201:8099/mockC2BPaymentValidationAndConfirmationBinding</Value>
+            </ReferenceItem>
+        </ReferenceData>
+    </Transaction>
+    <Identity>
+        <Caller>
+            <CallerType>0</CallerType>
+            <ThirdPartyID/>
+            <Password/>
+            <CheckSum/>
+            <ResultURL/>
+        </Caller>
+        <Initiator>
+            <IdentifierType>1</IdentifierType>
+            <Identifier/>
+            <SecurityCredential/>
+            <ShortCode/>
+        </Initiator>
+        <PrimartyParty>
+            <IdentifierType>1</IdentifierType>
+            <Identifier/>
+            <ShortCode>515151</ShortCode>
+        </PrimartyParty>
+    </Identity>
+    <KeyOwner>1</KeyOwner>
+</request>]]]]>><![CDATA[</req:RequestMsg>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://api-v1.gen.mm.vodafone.com/mminterface/request/RequestMgrPortType/GenericAPIRequestRequest"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Copy of Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.5.38.51:8310/mminterface/registerURL</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:req="http://api-v1.gen.mm.vodafone.com/mminterface/request">
+   <soapenv:Header>
+      <tns:RequestSOAPHeader xmlns:tns="http://www.huawei.com/schema/osg/common/v2_1">
+         <tns:spId>212121</tns:spId>
+         <tns:spPassword>REQ4NTNDM0YzMjdFOEQxRUQ0RjM4MUE3NjdDMDIxRTM0RjYwOUUwMDUzRjFFNEU5QjlFNkVEQzdGMzVCMTU4RQ==</tns:spPassword>
+         <tns:timeStamp>20140223113340</tns:timeStamp>
+         <tns:serviceId>102020000</tns:serviceId>
+      </tns:RequestSOAPHeader>
+   </soapenv:Header>
+   <soapenv:Body>
+      <req:RequestMsg><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<request xmlns="http://api-v1.gen.mm.vodafone.com/mminterface/request">
+    <Transaction>
+        <CommandID>12345</CommandID>
+        <OriginatorConversationID>787879</OriginatorConversationID>
+        <Parameters>
+            <Parameter>
+                <Key>ResponseType</Key>
+                <Value>Completed</Value>
+            </Parameter>
+        </Parameters>
+        <ReferenceData>
+            <ReferenceItem>
+                <Key>ValidationURL</Key>
+                <Value>http://10.66.49.201:8099/mockC2BPaymentValidationAndConfirmationBinding</Value>
+            </ReferenceItem>
+            <ReferenceItem>
+                <Key>ConfirmationURL</Key>
+                <Value>http://10.66.49.201:8099/mockC2BPaymentValidationAndConfirmationBinding</Value>
+            </ReferenceItem>
+        </ReferenceData>
+    </Transaction>
+    <Identity>
+        <Caller>
+            <CallerType>0</CallerType>
+            <ThirdPartyID/>
+            <Password/>
+            <CheckSum/>
+            <ResultURL/>
+        </Caller>
+        <Initiator>
+            <IdentifierType>1</IdentifierType>
+            <Identifier/>
+            <SecurityCredential/>
+            <ShortCode/>
+        </Initiator>
+        <PrimartyParty>
+            <IdentifierType>1</IdentifierType>
+            <Identifier/>
+            <ShortCode>515151</ShortCode>
+        </PrimartyParty>
+    </Identity>
+    <KeyOwner>1</KeyOwner>
+</request>]]]]>><![CDATA[</req:RequestMsg>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://api-v1.gen.mm.vodafone.com/mminterface/request/RequestMgrPortType/GenericAPIRequestRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/></con:soapui-project>
