@@ -14,4 +14,6 @@
 
 var services = require("./services");
 
+exports.ValidationService = services.VCService;
+exports.ExtractsService = services.TxnExtractsService;
 exports.CheckoutService = services.CheckoutService;

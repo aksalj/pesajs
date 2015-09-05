@@ -17,7 +17,7 @@ var MPesa = pesajs.MPESA;
 
 var checkout = new MPesa.CheckoutService();
 
-checkout.paymentNotification(null, null, function(req, res) {
+checkout.paymentNotification({}, null, function(req, res) {
     // Get parsed notification
     var ipn = req.ipn;
     console.log(ipn);

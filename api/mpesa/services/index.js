@@ -5,22 +5,32 @@
  *  Website: http://www.aksalj.me
  *
  *  Project : pesajs
- *  File : services
- *  Date : 9/5/15 1:24 PM
+ *  File : index
+ *  Date : 9/5/15 8:02 PM
  *  Description :
  *
  */
 'use strict';
 var util = require('util');
-var soapHelper = require("../../util/soapHelper");
+var soapHelper = require("../../../util/soapHelper");
 
 var CHECKOUT = require("./checkout");
+var EXTRACTS = require("./extracts");
+var VALIDATION = require("./vc");
 
 var Services = [
     {
         name: CHECKOUT.name,
         url: CHECKOUT.wsdl,
         client: null // SOAP client
+    },
+
+    {
+        name: EXTRACTS.name
+    },
+
+    {
+        name: VALIDATION.name
     }
 ];
 
@@ -37,10 +47,25 @@ var _getService = function (name) {
 };
 
 
+exports.VCService = function() {
+    var _srv = _getService(VALIDATION.name);
 
+    if(!_srv) {
+        throw new Error("Service unknown");
+    }
+
+};
+
+exports.TxnExtractsService = function() {
+    var _srv = _getService(EXTRACTS.name);
+
+    if(!_srv) {
+        throw new Error("Service unknown");
+    }
+
+};
 
 exports.CheckoutService = function() {
-    var that = this;
     var _srv = _getService(CHECKOUT.name);
 
     if(!_srv) {
@@ -142,7 +167,7 @@ exports.CheckoutService = function() {
 
             req.ipn = data;
             if(next) {
-                next();
+                next(req, res);
             }
         });
 

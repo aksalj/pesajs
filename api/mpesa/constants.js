@@ -19,7 +19,7 @@ var ReturnCode = function (code, description) {
     }
 };
 
-var RETURNCODES = {
+var API_RETURN_CODES = {
     SUCCESS: new ReturnCode(0, "Success. The Request has been successfully received or the transaction has successfully completed."),
 
     NO_FUNDS: new ReturnCode(1, "Insufficient Funds on MSISDN account"),
@@ -56,4 +56,4 @@ var RETURNCODES = {
 
 };
 
-exports.RETURNCODES = RETURNCODES;
+exports.RETURNCODES = API_RETURN_CODES;

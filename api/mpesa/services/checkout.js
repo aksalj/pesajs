@@ -50,12 +50,12 @@ exports = module.exports = {
     name: "Checkout",
 
     // Production
-    //wsdl: "https://www.safaricom.co.ke/mpesa_online/lnmo_checkout_server.php?wsdl",
-    //endpoint: "https://www.safaricom.co.ke/mpesa_online/lnmo_checkout_server.php",
+    wsdl: "https://www.safaricom.co.ke/mpesa_online/lnmo_checkout_server.php?wsdl",
+    endpoint: "https://www.safaricom.co.ke/mpesa_online/lnmo_checkout_server.php",
 
     // Development
-    wsdl: "/Users/aksalj/src/js/pesajs/doc/official/Checkout.wsdl",
-    endpoint: "http://localhost:5000",
+    //wsdl: "/Users/aksalj/src/js/pesajs/doc/official/Checkout.wsdl",
+    //endpoint: "http://localhost:5000",
 
     /**
      * Send a request to SAG
