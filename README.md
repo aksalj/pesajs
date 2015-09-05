@@ -14,6 +14,8 @@ Simplify interactions with the official [M-PESA API](http://www.safaricom.co.ke/
 
 - Paybill and Buygoods validation &amp; confirmation
 
+- Transaction Extracts
+
 
 ### Contributing
 

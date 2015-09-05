@@ -17,6 +17,12 @@ var MPesa = pesajs.MPESA;
 
 var checkout = new MPesa.CheckoutService();
 
+checkout.paymentNotification(null, null, function(req, res) {
+    // Get parsed notification
+    var ipn = req.ipn;
+    console.log(ipn);
+});
+
 checkout.processCheckOut(function(err, resp) {
     console.error(err);
     console.error(resp.toJSON().body);

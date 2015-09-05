@@ -127,15 +127,24 @@ exports.CheckoutService = function() {
 
 
     /**
-     * Receive payment notification
-     * @param args
-     * @param callback
+     * Payment notification middleware
+     * @param req
+     * @param res
      */
-    this.paymentNotification = function(args, callback) {
-        // FIXME: LNMOResult??
-        // TODO: hapi/express endpoint support??
+    this.paymentNotification = function(req, res, next) {
+        // TODO: hapi+express support
 
-        _triggerOperation("LNMOResult", args, callback);
+        var args = null; // GET params? Plain POST? XML POST?
+        _triggerOperation("LNMOResult", args, function(err, data) {
+            // TODO: Respond to SAG and make sure next middleware doesn't send anything
+            console.error(err);
+
+
+            req.ipn = data;
+            if(next) {
+                next();
+            }
+        });
 
     };
 
