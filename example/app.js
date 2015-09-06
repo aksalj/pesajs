@@ -29,9 +29,7 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('static'));
 
-
 app.post('/checkout/:action(request|confirm)', function (req, res, next) {
-
 
     switch(req.params.action) {
         case "request":
@@ -57,7 +55,9 @@ app.post('/checkout/:action(request|confirm)', function (req, res, next) {
                 // ...
 
                 res.send({
-                    message: data.message
+                    transaction: transaction,
+                    mpesa_txn: data.TXN_MPESA,
+                    message: data.Message
                 });
             });
 
@@ -70,8 +70,13 @@ app.post('/checkout/:action(request|confirm)', function (req, res, next) {
             };
 
             checkoutService.confirmCheckout(args, function(err, data) {
-                console.error(err);
+                if(err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                    return;
+                }
                 console.info(data);
+
 
                 res.send({
                     message: "Thank you for doing business with us. Buy some more stuff while we wait for payment to be processed!"
@@ -86,10 +91,22 @@ app.post('/checkout/:action(request|confirm)', function (req, res, next) {
 
 });
 
-app.all("/ipn", checkoutService.paymentNotification, function(req, res) {
+app.post("/ipn", checkoutService.paymentNotification, function(req, res) {
     // Do whatever with payment info like confirm purchase, init shipping, send download link, etc.
     var ipn = req.payment;
     console.log(ipn);
+});
+
+app.get("/status", function(req, res) {
+    var args = {
+        Transaction: randomstring.generate(),
+        TXN_MPESA: randomstring.generate()
+    };
+    checkoutService.getTransactionStatus(args, function(err, data) {
+        console.error(err);
+        console.error(data);
+        res.send(data);
+    });
 });
 
 

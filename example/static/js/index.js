@@ -63,8 +63,8 @@
                 $("#btnPay").removeClass("disabled");
                 $("#btnPay").html("Confirm");
 
-                $("#transaction").val("ferferfefe");
-                $("#mpesa_txn").val("ferferfefe");
+                $("#transaction").val(data.transaction);
+                $("#mpesa_txn").val(data.mpesa_txn);
 
                 $("#phoneNumberInput").fadeToggle("fast", function() {
                     $("#mpesaMsg").html(data.message); // HUH
