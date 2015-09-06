@@ -12,14 +12,19 @@
  */
 'use strict';
 
+var Const = require("./constants");
 var services = require("./services");
 
 exports = module.exports = function (opt) {
     services.init(opt);
 
     return {
+        // Data
+        Cart: Const.Cart,
+
+        // Services
+        CheckoutService: services.CheckoutService,
         ValidationService: services.VCService,
-        ExtractsService: services.TxnExtractsService,
-        CheckoutService: services.CheckoutService
+        ExtractsService: services.TxnExtractsService
     };
 };

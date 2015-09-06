@@ -77,6 +77,8 @@ exports.TxnExtractsService = function() {
 
 };
 
+
+
 exports.CheckoutService = function() {
     var _srv = _getService(CHECKOUT.name);
 
@@ -84,29 +86,6 @@ exports.CheckoutService = function() {
         throw new Error("Service unknown");
     }
 
-
-    /**
-     * Create the SOAP client
-     * @param cb
-     * @private
-     */
-    var _initClient = function (cb) {
-        var opt = {
-            endpoint: CHECKOUT.endpoint
-        };
-        soapHelper.createSoapClient(_srv, opt, function(err, client) {
-            if(!client) {
-                throw new Error("Checkout Soap client not initialized!");
-            } else {
-                _srv.client = client;
-                if (Const.DEBUG) {
-                    console.info(util.inspect(_client.describe(), false, null));
-                }
-                cb(true);
-            }
-        }, Const.DEBUG);
-
-    };
 
     /**
      * Send soap request
@@ -117,13 +96,26 @@ exports.CheckoutService = function() {
      */
     var _triggerOperation = function (name, args, callback) {
         if(!_srv.client) {
-            _initClient(function(clientReady) {
-                if(clientReady) {
-                    CHECKOUT.trigger(name, _srv.client, args, callback);
+
+            // Init Client
+            var opt = {
+                endpoint: CHECKOUT.endpoint
+            };
+            soapHelper.createSoapClient(_srv, opt, function(err, client) {
+                if(!client) {
+                    throw new Error("Checkout Soap client not initialized!");
                 } else {
-                    throw new Error("Checkout Soap client not ready!");
+                    _srv.client = client;
+                    if (Const.DEBUG) {
+                        console.info(util.inspect(_srv.client.describe(), false, null));
+                    }
+
+                    CHECKOUT.trigger(name, _srv.client, args, callback);
+
                 }
-            });
+            }, Const.DEBUG);
+
+
         } else {
             CHECKOUT.trigger(name, _srv.client, args, callback);
         }
@@ -131,25 +123,15 @@ exports.CheckoutService = function() {
 
 
 
-
-
-
     // Public API for this service
 
     /**
      * Initiate checkout process
-     * @param args Object
+     * @param cart Cart
      * @param callback
      */
-    this.processCheckOut = function(args, callback) {
-        /*
-         Transaction:
-         Ref:
-         Account:
-         Amount:
-         Details:
-         CallbackUrl:
-         */
+    this.requestCheckout = function(cart, callback) {
+
         var params = {
             MERCHANT_TRANSACTION_ID: args.Transaction,
             REFERENCE_ID: args.Ref,
@@ -169,16 +151,16 @@ exports.CheckoutService = function() {
      * @param args
      * @param callback
      */
-    this.confirmTransaction = function(args, callback) {
+    this.confirmCheckout = function(args, callback) {
 
         /*
         Transaction
-        TxnMPesa
+        TXN_MPESA
          */
 
         var params = {
             MERCHANT_TRANSACTION_ID: args.Transaction,
-            TRX_ID: args.TxnMPesa,
+            TRX_ID: args.TXN_MPESA,
             TIMESTAMP: Date.now()
         };
 
@@ -191,7 +173,7 @@ exports.CheckoutService = function() {
      * @param args
      * @param callback
      */
-    this.transactionStatusQuery = function(args, callback) {
+    this.getTransactionStatus = function(args, callback) {
         _triggerOperation("transactionStatusQuery", args, callback);
     };
 

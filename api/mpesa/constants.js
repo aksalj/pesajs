@@ -12,6 +12,12 @@
  */
 'use strict';
 
+var ReturnCode = function (code, description) {
+    return {
+        code: code,
+        description: description
+    }
+};
 
 exports.DEBUG = false;
 
@@ -20,14 +26,33 @@ exports.MERCHANT = {
     PassKey: null
 };
 
+/**
+ * Checkout cart
+ * @param transaction
+ * @param reference
+ * @param account
+ * @param amount
+ * @param details
+ * @param callbackUrl
+ * @constructor
+ */
+exports.Cart = function (transaction, reference, account, amount, details, callbackUrl) {
+    /*
+     Transaction:
+     Ref:
+     Account:
+     Amount:
+     Details:
+     CallbackUrl:
+     */
+    this.Transaction = transaction;
+    this.Ref = reference;
+    this.Account = account;
+    this.Amount = amount;
+    this.Details = details;
+    this.CallbackUrl = callbackUrl;
 
-var ReturnCode = function (code, description) {
-    return {
-        code: code,
-        description: description
-    }
 };
-
 
 exports.RETURNCODES = {
 

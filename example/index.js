@@ -19,30 +19,25 @@ var MPesa = pesajs.MPESA({
     debug: false
 });
 
-var checkout = new MPesa.CheckoutService();
+var checkoutService = new MPesa.CheckoutService();
 
-checkout.paymentNotification({}, null, function(req, res) {
+checkoutService.paymentNotification({}, null, function(req, res) {
     // Get parsed notification
     var ipn = req.ipn;
     console.log(ipn);
 });
 
-var cart = {
-    Transaction: 34535,
-    Ref: "Maziwa",
-    Account: "254710000000",
-    Amount: 59999,
-    Details: "Additional transaction details if any",
-    CallbackUrl: "https://awesome-shop.co.ke/ipn"
-};
-checkout.processCheckOut(cart, function(err, resp) {
+
+var cart = new MPesa.Cart(34546, "Maziwa", "254710000000", "254710000000", "Additional transaction details if any", "https://awesome-shop.co.ke/ipn");
+
+checkoutService.requestCheckout(cart, function(err, resp) {
     console.error(err);
     console.error(resp.toJSON().body);
 
     // Now if ok show message to user and allow them to confirm
     // ...
 
-    checkout.confirmTransaction({}, function(err, resp) {
+    checkoutService.confirmCheckout({}, function(err, resp) {
         console.error(err);
         console.info(resp.toJSON().body);
     });
