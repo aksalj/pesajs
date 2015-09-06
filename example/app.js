@@ -12,6 +12,7 @@
  */
 'use strict';
 var express = require("express");
+var bodyParser = require('body-parser');
 var randomstring = require("randomstring");
 var pesajs = require("../index");
 
@@ -25,6 +26,7 @@ var MPesa = pesajs.MPESA({
 var checkoutService = new MPesa.CheckoutService();
 
 var app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('static'));
 
 
@@ -51,7 +53,9 @@ app.post('/checkout/:action(request|confirm)', function (req, res, next) {
                 // Now if ok show message to user and allow them to confirm
                 // ...
 
-                res.send(resp.toJSON());
+                res.send({
+                    message: "To complete this transaction, enter YOUR PIN on YOUR handset."
+                });
             });
 
             break;
@@ -67,7 +71,7 @@ app.post('/checkout/:action(request|confirm)', function (req, res, next) {
                 console.info(resp.toJSON().body);
 
                 res.send({
-                    msg: "Thank you for doing business with us. Buy some more stuff while we wait for payment to be processed!"
+                    message: "Thank you for doing business with us. Buy some more stuff while we wait for payment to be processed!"
                 });
             });
 
