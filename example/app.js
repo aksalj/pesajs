@@ -19,7 +19,7 @@ var pesajs = require("../index");
 var MPesa = pesajs.MPESA({
     ID: "898945",
     PassKey: "SuperSecretPassKey",
-    debug: true
+    debug: false
 });
 
 
@@ -31,7 +31,7 @@ app.use(express.static('static'));
 
 
 app.post('/checkout/:action(request|confirm)', function (req, res, next) {
-    
+
 
     switch(req.params.action) {
         case "request":
@@ -45,15 +45,19 @@ app.post('/checkout/:action(request|confirm)', function (req, res, next) {
             var cart = new MPesa.Cart(transaction, ref, phone, amount, "http://awesome-store.co.ke/ipn");
             cart.Details = "Additional transaction details if any";
 
-            checkoutService.requestCheckout(cart, function(err, resp) {
-                console.error(err);
-                var data = resp.toJSON().body;
+            checkoutService.requestCheckout(cart, function(err, data) {
+                if(err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                    return;
+                }
+                console.info(data);
 
                 // Now if ok show message to user and allow them to confirm
                 // ...
 
                 res.send({
-                    message: "To complete this transaction, enter YOUR PIN on YOUR handset."
+                    message: data.message
                 });
             });
 
@@ -65,9 +69,9 @@ app.post('/checkout/:action(request|confirm)', function (req, res, next) {
                 TXN_MPESA: req.body.mpesa_transaction
             };
 
-            checkoutService.confirmCheckout(args, function(err, resp) {
+            checkoutService.confirmCheckout(args, function(err, data) {
                 console.error(err);
-                console.info(resp.toJSON().body);
+                console.info(data);
 
                 res.send({
                     message: "Thank you for doing business with us. Buy some more stuff while we wait for payment to be processed!"
