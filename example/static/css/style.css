@@ -59,6 +59,10 @@ nav ul li a:hover {
   white-space: nowrap;
 }
 
+#payment-cart {
+  display: none;
+}
+
 .shopping-cart {
   margin: 20px 0;
   float: right;
@@ -118,6 +122,30 @@ nav ul li a:hover {
   margin-right: 7px;
   float: left;
 }
+
+.phoneInput {
+  display: block;
+  margin: 0;
+  width: 100%;
+  font-size: 18px;
+  appearance: none;
+  box-shadow: none;
+}
+
+.phoneInput input[type="tel"] {
+  font-size: 18px;
+  padding: 10px;
+  border: none;
+  border-bottom: solid 2px #c9c9c9;
+  transition: border 0.3s;
+}
+
+
+.phoneInput input[type="tel"]:focus {
+  outline: none;
+  border-bottom: solid 2px #6eb43f;
+}
+
 
 .button {
   background: #6eb43f;

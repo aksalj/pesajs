@@ -2,6 +2,7 @@
   "name": "pesajs-example",
   "version": "0.0.0",
   "dependencies": {
-    "express": "^4.13.3"
+    "express": "^4.13.3",
+    "randomstring": "^1.0.8"
   }
 }

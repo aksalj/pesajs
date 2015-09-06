@@ -12,6 +12,7 @@
  */
 'use strict';
 var express = require("express");
+var randomstring = require("randomstring");
 var pesajs = require("../index");
 
 var MPesa = pesajs.MPESA({
@@ -27,23 +28,55 @@ var app = express();
 app.use(express.static('static'));
 
 
-app.post('/checkout/:action(request|confirm)', function (req, res) {
+app.post('/checkout/:action(request|confirm)', function (req, res, next) {
 
-    var cart = new MPesa.Cart(34546, "Maziwa", "254710000000", "254710000000", "https://awesome-shop.co.ke/ipn");
-    cart.Details = "Additional transaction details if any";
 
-    checkoutService.requestCheckout(cart, function(err, resp) {
-        console.error(err);
-        console.error(resp.toJSON().body);
 
-        // Now if ok show message to user and allow them to confirm
-        // ...
+    switch(req.params.action) {
+        case "request":
 
-        checkoutService.confirmCheckout({Transaction: cart.Transaction}, function(err, resp) {
-            console.error(err);
-            console.info(resp.toJSON().body);
-        });
-    });
+            var transaction = randomstring.generate();
+            var ref = req.body.reference;
+            var phone = req.body.phone;
+            var amount = req.body.amount;
+
+
+            var cart = new MPesa.Cart(transaction, ref, phone, amount, "http://awesome-store.co.ke/ipn");
+            cart.Details = "Additional transaction details if any";
+
+            checkoutService.requestCheckout(cart, function(err, resp) {
+                console.error(err);
+                console.error(resp.toJSON().body);
+
+                // Now if ok show message to user and allow them to confirm
+                // ...
+
+                res.send(resp.toJSON());
+            });
+
+            break;
+        case "confirm":
+
+            var args = {
+                Transaction: req.body.transaction,
+                TXN_MPESA: req.body.mpesa_transaction
+            };
+
+            checkoutService.confirmCheckout(args, function(err, resp) {
+                console.error(err);
+                console.info(resp.toJSON().body);
+
+                res.send({
+                    msg: "Thank you for doing business with us. Buy some more stuff while we wait for payment to be processed!"
+                });
+            });
+
+            break;
+        default:
+            next();
+            break;
+    }
+
 });
 
 app.all("/ipn", checkoutService.paymentNotification, function(req, res) {

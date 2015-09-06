@@ -2,12 +2,9 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>M-Pesa API Example</title>
-
-
+    <title>Awesome Store</title>
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
-
 </head>
 
 <body>
@@ -29,7 +26,7 @@
 
 
 <div class="container">
-    <div class="shopping-cart">
+    <div id="shopping-cart" class="shopping-cart">
         <div class="shopping-cart-header">
             <i class="fa fa-shopping-cart cart-icon"></i><span class="badge">3</span>
 
@@ -45,27 +42,61 @@
                 <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/cart-item1.jpg" alt="item1"/>
                 <span class="item-name">Sony DSC-RX100M III</span>
                 <span class="item-price">KES 89,949.99</span>
-                <span class="item-quantity">Quantity: 01</span>
+                <span class="item-quantity">Qty: 1</span>
             </li>
 
             <li class="clearfix">
                 <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/cart-item2.jpg" alt="item1"/>
                 <span class="item-name">KS Automatic Mechanic...</span>
                 <span class="item-price">KES 11,249.99</span>
-                <span class="item-quantity">Quantity: 01</span>
+                <span class="item-quantity">Qty: 12</span>
             </li>
 
             <li class="clearfix">
                 <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/cart-item3.jpg" alt="item1"/>
                 <span class="item-name">Kindle, 6" Glare-Free To...</span>
-                <span class="item-price">KES 12439.99</span>
-                <span class="item-quantity">Quantity: 01</span>
+                <span class="item-price">KES 12,439.99</span>
+                <span class="item-quantity">Qty: 1</span>
             </li>
         </ul>
 
-        <a href="#" class="button">Checkout</a>
+        <a href="#" id="btnCheckout" class="button">Checkout</a>
     </div>
     <!--end shopping-cart -->
+
+    <div id="payment-cart" class="shopping-cart">
+        <div class="shopping-cart-header">
+            <i class="fa fa-shopping-cart cart-icon"></i><span class="badge">3</span>
+
+            <div class="shopping-cart-total">
+                <span class="lighter-text">Total:</span>
+                <span class="main-color-text">KES 22,229.97</span>
+            </div>
+        </div>
+
+        <form id="payment-form" method="post">
+            <div style="text-align: center">
+                <input id="reference" type="hidden" name="reference">
+                <input id="amount" type="hidden" name="amount" value="22229.97">
+
+
+                <ul class="shopping-cart-items">
+                    <li class="clearfix">
+                        <span class="item-name"><label for="phone">M-Pesa Account Number</label></span>
+                    </li>
+                </ul>
+                <span class="phoneInput">
+                    <span>254</span>
+                    <input id="phone" type="tel" placeholder="710000000" name="phone">
+                </span>
+            </div>
+        </form>
+
+        <a href="#" id="btnPay" class="button">Lipa Na M-Pesa</a>
+
+    </div>
+
+
 </div>
 <!--end container -->
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
