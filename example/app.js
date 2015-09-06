@@ -19,7 +19,7 @@ var pesajs = require("../index");
 var MPesa = pesajs.MPESA({
     ID: "898945",
     PassKey: "SuperSecretPassKey",
-    debug: false
+    debug: true
 });
 
 
@@ -31,8 +31,7 @@ app.use(express.static('static'));
 
 
 app.post('/checkout/:action(request|confirm)', function (req, res, next) {
-
-
+    
 
     switch(req.params.action) {
         case "request":

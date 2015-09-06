@@ -22,7 +22,8 @@
     "crypto-js": "^3.1.5",
     "lodash": "^3.10.1",
     "request": "^2.61.0",
-    "soap": "^0.9.1"
+    "xml2json": "^0.9.0",
+    "json2xml": "^0.1.2"
   },
   "devDependencies": {
     "request-debug": "*"
