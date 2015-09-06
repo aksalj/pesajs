@@ -35,8 +35,7 @@ var checkoutService = new MPesa.CheckoutService();
 
 // Initiate Lipa Na M-Pesa online checkout
 
-var cart = new MPesa.Cart(MY_TRANSACTION_ID, MY_REFERENCE, 
-USER_MPESA_NUMBER, AMOUNT, MY_CALLBACK_URL);
+var cart = new MPesa.Cart(MY_TRANSACTION_ID, MY_REFERENCE, USER_MPESA_NUMBER, AMOUNT, MY_CALLBACK_URL);
 checkoutService.requestCheckout(cart, function(err, data) {
 
     // Now display M-Pesa message to user
@@ -48,7 +47,11 @@ checkoutService.requestCheckout(cart, function(err, data) {
 
 // Confirm transaction
 
-checkoutService.confirmCheckout({Transaction: MY_TRANSACTION, TXN_MPESA: transaction}, function(err, data) {
+var params = {
+    Transaction: MY_TRANSACTION, 
+    TXN_MPESA: transaction
+};
+checkoutService.confirmCheckout(params, function(err, data) {
     
     // User should see a USSD menu on their phone at this point.
     // Now relax and wait for M-Pesa to notify you of the payment
