@@ -26,16 +26,17 @@ var MPesa = pesajs.MPESA({
 
 #### Features
 
-- Online checkout (`Lipa Na M-Pesa`): According to Safaricom, this is a "Web service for integrating the M-Pesa 
+- Online checkout (`Lipa Na M-Pesa`): According to Safaricom, this is a "*Web service for integrating the M-Pesa 
 Checkout API to a merchant site. The overall scope of this Web service is to provide primitives for application developers 
-to handle checkout process in a simple way."
+to handle checkout process in a simple way*."
 
 ```javascript
 var checkoutService = new MPesa.CheckoutService();
 
 // Initiate Lipa Na M-Pesa online checkout
 
-var cart = new MPesa.Cart(MY_TRANSACTION_ID, MY_REFERENCE, USER_MPESA_NUMBER, 10000, "http://awesome-store.co.ke/ipn");
+var cart = new MPesa.Cart(MY_TRANSACTION_ID, MY_REFERENCE, 
+USER_MPESA_NUMBER, AMOUNT, MY_CALLBACK_URL);
 checkoutService.requestCheckout(cart, function(err, data) {
 
     // Now display M-Pesa message to user
