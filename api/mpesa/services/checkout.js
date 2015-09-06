@@ -52,7 +52,7 @@ var _parseLNMOResult = function(params, callback) {
 
 
 exports = module.exports = {
-    name: "Checkout",
+    name: "Lipa Na M-PESA Online Checkout",
 
     // Production
     wsdl: "https://www.safaricom.co.ke/mpesa_online/lnmo_checkout_server.php?wsdl",

@@ -1,0 +1,7 @@
+{
+  "name": "pesajs-example",
+  "version": "0.0.0",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}

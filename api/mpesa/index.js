@@ -25,8 +25,14 @@ exports = module.exports = function (opt) {
         Cart: Const.Cart,
 
         // Services
+
+            // Lipa Na M-Pesa Online
         CheckoutService: services.CheckoutService,
+
+            // Paybill and Buygoods Validation & Confirmation
         ValidationService: services.VCService,
+
+            // Transaction Extracts
         ExtractsService: services.TxnExtractsService
     };
 };

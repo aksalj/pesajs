@@ -44,10 +44,6 @@ exports.CheckoutService = function() {
         client: null
     };
 
-    if(!_srv) {
-        throw new Error("Service unknown");
-    }
-
 
     /**
      * Send soap request
@@ -95,12 +91,12 @@ exports.CheckoutService = function() {
     this.requestCheckout = function(cart, callback) {
 
         var params = {
-            MERCHANT_TRANSACTION_ID: args.Transaction,
-            REFERENCE_ID: args.Ref,
-            AMOUNT: args.Amount,
-            MSISDN: args.Account,
-            ENC_PARAMS: args.Details,
-            CALL_BACK_URL: args.CallbackUrl,
+            MERCHANT_TRANSACTION_ID: cart.Transaction,
+            REFERENCE_ID: cart.Ref,
+            AMOUNT: cart.Amount,
+            MSISDN: cart.Account,
+            ENC_PARAMS: cart.Details,
+            CALL_BACK_URL: cart.CallbackUrl,
             CALL_BACK_METHOD: "xml", // get | post | xml; documentation not clear on how to send this param.
             TIMESTAMP: Date.now()
         };
@@ -136,7 +132,18 @@ exports.CheckoutService = function() {
      * @param callback
      */
     this.getTransactionStatus = function(args, callback) {
-        _triggerOperation("transactionStatusQuery", args, callback);
+
+        /*
+         Transaction
+         TXN_MPESA
+         */
+
+        var params = {
+            MERCHANT_TRANSACTION_ID: args.Transaction,
+            TRX_ID: args.TXN_MPESA
+        };
+
+        _triggerOperation("transactionStatusQuery", params, callback);
     };
 
 
@@ -154,7 +161,7 @@ exports.CheckoutService = function() {
             console.error(err);
 
 
-            req.ipn = data;
+            req.payment = data;
             if(next) {
                 next(req, res);
             }
