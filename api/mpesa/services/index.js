@@ -138,11 +138,30 @@ exports.CheckoutService = function() {
 
     /**
      * Initiate checkout process
-     * @param args
+     * @param args Object
      * @param callback
      */
     this.processCheckOut = function(args, callback) {
-        _triggerOperation("processCheckOut", args, callback);
+        /*
+         Transaction:
+         Ref:
+         Account:
+         Amount:
+         Details:
+         CallbackUrl:
+         */
+        var params = {
+            MERCHANT_TRANSACTION_ID: args.Transaction,
+            REFERENCE_ID: args.Ref,
+            AMOUNT: args.Amount,
+            MSISDN: args.Account,
+            ENC_PARAMS: args.Details,
+            CALL_BACK_URL: args.CallbackUrl,
+            CALL_BACK_METHOD: "xml", // get | post | xml; documentation not clear on how to send this param.
+            TIMESTAMP: Date.now()
+        };
+
+        _triggerOperation("processCheckOut", params, callback);
     };
 
     /**
@@ -151,7 +170,19 @@ exports.CheckoutService = function() {
      * @param callback
      */
     this.confirmTransaction = function(args, callback) {
-        _triggerOperation("confirmTransaction", args, callback);
+
+        /*
+        Transaction
+        TxnMPesa
+         */
+
+        var params = {
+            MERCHANT_TRANSACTION_ID: args.Transaction,
+            TRX_ID: args.TxnMPesa,
+            TIMESTAMP: Date.now()
+        };
+
+        _triggerOperation("confirmTransaction", params, callback);
     };
 
 

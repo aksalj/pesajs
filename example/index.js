@@ -27,7 +27,23 @@ checkout.paymentNotification({}, null, function(req, res) {
     console.log(ipn);
 });
 
-checkout.processCheckOut(function(err, resp) {
+var cart = {
+    Transaction: 34535,
+    Ref: "Maziwa",
+    Account: "254710000000",
+    Amount: 59999,
+    Details: "Additional transaction details if any",
+    CallbackUrl: "https://awesome-shop.co.ke/ipn"
+};
+checkout.processCheckOut(cart, function(err, resp) {
     console.error(err);
     console.error(resp.toJSON().body);
+
+    // Now if ok show message to user and allow them to confirm
+    // ...
+
+    checkout.confirmTransaction({}, function(err, resp) {
+        console.error(err);
+        console.info(resp.toJSON().body);
+    });
 });

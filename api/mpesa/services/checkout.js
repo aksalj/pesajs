@@ -56,11 +56,11 @@ exports = module.exports = {
 
     // Production
     wsdl: "https://www.safaricom.co.ke/mpesa_online/lnmo_checkout_server.php?wsdl",
-    endpoint: "https://www.safaricom.co.ke/mpesa_online/lnmo_checkout_server.php",
+    //endpoint: "https://www.safaricom.co.ke/mpesa_online/lnmo_checkout_server.php",
 
     // Development
     //wsdl: "/Users/aksalj/src/js/pesajs/doc/official/Checkout.wsdl",
-    //endpoint: "http://localhost:5000",
+    endpoint: "http://localhost:5000",
 
     /**
      * Send a request to SAG
@@ -84,17 +84,17 @@ exports = module.exports = {
         }
 
         // Add expected CheckoutHeader
-        var timestamp = Date.now();
-            //  hash("sha256", MERCHANT_ID, passkey, TIMESTAMP) in upper case
-        var hash = SHA256(Const.MERCHANT.ID + Const.MERCHANT.PassKey + timestamp).toString().toUpperCase();
+        var hash = SHA256(Const.MERCHANT.ID + Const.MERCHANT.PassKey + params.TIMESTAMP).toString().toUpperCase();
         var soapHeader = {
             "tns:CheckoutHeader": {
                 "MERCHANT_ID": Const.MERCHANT.ID,
-                "REFERENCE_ID": null, // TODO: Get from params or separate argument?
-                "TIMESTAMP": timestamp,
+                "TIMESTAMP": params.TIMESTAMP,
                 "PASSWORD": BASE64.stringify(UTF8.parse(hash))
             }
         };
+        if(params.REFERENCE_ID) {
+            soapHeader["tns:CheckoutHeader"]["REFERENCE_ID"] = params.REFERENCE_ID;
+        }
         soapClient.addSoapHeader(soapHeader, "", "tns", "tns:ns"); //soapHeader, name, namespace, xmlns
 
 
