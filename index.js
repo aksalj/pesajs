@@ -12,4 +12,4 @@
  */
 'use strict';
 
-exports.MPESA = require("./api/mpesa");
+exports.MPESA = require("./lib/api/mpesa");
