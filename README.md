@@ -26,7 +26,7 @@ var MPesa = pesajs.MPESA({
 
 #### Features
 
-- Online checkout (`Lipa Na M-Pesa`): According to Safaricom, this is a "*Web service for integrating the M-Pesa 
+- **Online checkout (`Lipa Na M-Pesa`)**: According to Safaricom, this is a "*Web service for integrating the M-Pesa 
 Checkout API to a merchant site. The overall scope of this Web service is to provide primitives for application developers 
 to handle checkout process in a simple way*."
 
@@ -71,9 +71,9 @@ app.post("/ipn", checkoutService.paymentNotification, function(req, res) {
 ```
 
 
-- Paybill and Buygoods validation &amp; confirmation: `TODO`
+- **Paybill and Buygoods validation &amp; confirmation**: `TODO`
 
-- Transaction Extracts: `TODO`
+- **Transaction Extracts**: `TODO`
 
 
 #### Contributing
