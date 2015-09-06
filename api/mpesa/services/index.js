@@ -20,33 +20,6 @@ var CHECKOUT = require("./checkout");
 var EXTRACTS = require("./extracts");
 var VALIDATION = require("./vc");
 
-var Services = [
-    {
-        name: CHECKOUT.name,
-        url: CHECKOUT.wsdl,
-        client: null // SOAP client
-    },
-
-    {
-        name: EXTRACTS.name
-    },
-
-    {
-        name: VALIDATION.name
-    }
-];
-
-
-var _getService = function (name) {
-    if(name) {
-        for (var i = 0; i < Services.length; i++) {
-            if (Services[i].name === name) {
-                return Services[i];
-            }
-        }
-    }
-    return null;
-};
 
 exports.init = function (options) {
     options = options || {};
@@ -59,28 +32,17 @@ exports.init = function (options) {
     Const.MERCHANT.PassKey = options.PassKey;
 };
 
-exports.VCService = function() {
-    var _srv = _getService(VALIDATION.name);
+exports.VCService = function() { };
 
-    if(!_srv) {
-        throw new Error("Service unknown");
-    }
-
-};
-
-exports.TxnExtractsService = function() {
-    var _srv = _getService(EXTRACTS.name);
-
-    if(!_srv) {
-        throw new Error("Service unknown");
-    }
-
-};
+exports.TxnExtractsService = function() { };
 
 
 
 exports.CheckoutService = function() {
-    var _srv = _getService(CHECKOUT.name);
+    var _srv = {
+        url: CHECKOUT.wsdl,
+        client: null
+    };
 
     if(!_srv) {
         throw new Error("Service unknown");

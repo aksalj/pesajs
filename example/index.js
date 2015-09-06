@@ -28,7 +28,8 @@ checkoutService.paymentNotification({}, null, function(req, res) {
 });
 
 
-var cart = new MPesa.Cart(34546, "Maziwa", "254710000000", "254710000000", "Additional transaction details if any", "https://awesome-shop.co.ke/ipn");
+var cart = new MPesa.Cart(34546, "Maziwa", "254710000000", "254710000000", "https://awesome-shop.co.ke/ipn");
+cart.Details = "Additional transaction details if any";
 
 checkoutService.requestCheckout(cart, function(err, resp) {
     console.error(err);

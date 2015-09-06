@@ -18,7 +18,9 @@ var services = require("./services");
 exports = module.exports = function (opt) {
     services.init(opt);
 
-    return {
+    return { // Exposed interfaces
+
+
         // Data
         Cart: Const.Cart,
 

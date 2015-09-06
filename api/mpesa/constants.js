@@ -32,11 +32,10 @@ exports.MERCHANT = {
  * @param reference
  * @param account
  * @param amount
- * @param details
  * @param callbackUrl
  * @constructor
  */
-exports.Cart = function (transaction, reference, account, amount, details, callbackUrl) {
+exports.Cart = function (transaction, reference, account, amount, callbackUrl) {
     /*
      Transaction:
      Ref:
@@ -49,7 +48,7 @@ exports.Cart = function (transaction, reference, account, amount, details, callb
     this.Ref = reference;
     this.Account = account;
     this.Amount = amount;
-    this.Details = details;
+    this.Details = null; // this is optional
     this.CallbackUrl = callbackUrl;
 
 };
