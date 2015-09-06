@@ -14,6 +14,8 @@
 var util = require('util');
 var soapHelper = require("../../../util/soapHelper");
 
+var Const = require("../constants");
+
 var CHECKOUT = require("./checkout");
 var EXTRACTS = require("./extracts");
 var VALIDATION = require("./vc");
@@ -46,6 +48,16 @@ var _getService = function (name) {
     return null;
 };
 
+exports.init = function (options) {
+    options = options || {};
+
+    if (!options.ID || !options.PassKey) throw new Error("Need to specify both merchant ID and passkey");
+
+    Const.DEBUG = options.debug || false;
+
+    Const.MERCHANT.ID = options.ID;
+    Const.MERCHANT.PassKey = options.PassKey;
+};
 
 exports.VCService = function() {
     var _srv = _getService(VALIDATION.name);
@@ -87,10 +99,12 @@ exports.CheckoutService = function() {
                 throw new Error("Checkout Soap client not initialized!");
             } else {
                 _srv.client = client;
-                //console.info(util.inspect(_client.describe(), false, null));
+                if (Const.DEBUG) {
+                    console.info(util.inspect(_client.describe(), false, null));
+                }
                 cb(true);
             }
-        });
+        }, Const.DEBUG);
 
     };
 

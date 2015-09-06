@@ -1,6 +1,6 @@
 {
   "name": "pesajs",
-  "version": "0.0.0",
+  "version": "0.0.0a",
   "description": "M-Pesa API binding",
   "homepage": "https://github.com/aksalj/pesajs",
   "repository": {
@@ -19,6 +19,7 @@
   "author": "Salama AB <aksalj@aksalj.me>",
   "license": "MIT",
   "dependencies": {
+    "crypto-js": "^3.1.5",
     "lodash": "^3.10.1",
     "request": "^2.61.0",
     "soap": "^0.9.1"

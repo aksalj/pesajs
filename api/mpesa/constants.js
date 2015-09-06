@@ -12,6 +12,15 @@
  */
 'use strict';
 
+
+exports.DEBUG = false;
+
+exports.MERCHANT = {
+    ID: null,
+    PassKey: null
+};
+
+
 var ReturnCode = function (code, description) {
     return {
         code: code,
@@ -19,7 +28,9 @@ var ReturnCode = function (code, description) {
     }
 };
 
-var API_RETURN_CODES = {
+
+exports.RETURNCODES = {
+
     SUCCESS: new ReturnCode(0, "Success. The Request has been successfully received or the transaction has successfully completed."),
 
     NO_FUNDS: new ReturnCode(1, "Insufficient Funds on MSISDN account"),
@@ -55,5 +66,3 @@ var API_RETURN_CODES = {
     UNAUTHORIZED: new ReturnCode(36,"Response given if incorrect credentials are provided in the request")
 
 };
-
-exports.RETURNCODES = API_RETURN_CODES;

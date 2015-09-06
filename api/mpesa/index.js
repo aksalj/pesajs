@@ -14,6 +14,12 @@
 
 var services = require("./services");
 
-exports.ValidationService = services.VCService;
-exports.ExtractsService = services.TxnExtractsService;
-exports.CheckoutService = services.CheckoutService;
+exports = module.exports = function (opt) {
+    services.init(opt);
+
+    return {
+        ValidationService: services.VCService,
+        ExtractsService: services.TxnExtractsService,
+        CheckoutService: services.CheckoutService
+    };
+};

@@ -13,7 +13,11 @@
 'use strict';
 
 var pesajs = require("../index");
-var MPesa = pesajs.MPESA;
+var MPesa = pesajs.MPESA({
+    ID: "898945",
+    PassKey: "SuperSecretPassKey",
+    debug: false
+});
 
 var checkout = new MPesa.CheckoutService();
 

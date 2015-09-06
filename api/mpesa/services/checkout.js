@@ -25,6 +25,11 @@
 'use strict';
 var soap = require('soap');
 var _ = require("lodash");
+var UTF8 = require("crypto-js/enc-utf8");
+var SHA256 = require("crypto-js/sha256");
+var BASE64 = require("crypto-js/enc-base64");
+
+var Const = require("../constants");
 
 var OPERATIONS = [ "LNMOResult", "processCheckOut", "transactionStatusQuery", "confirmTransaction"];
 
@@ -79,12 +84,15 @@ exports = module.exports = {
         }
 
         // Add expected CheckoutHeader
+        var timestamp = Date.now();
+            //  hash("sha256", MERCHANT_ID, passkey, TIMESTAMP) in upper case
+        var hash = SHA256(Const.MERCHANT.ID + Const.MERCHANT.PassKey + timestamp).toString().toUpperCase();
         var soapHeader = {
             "tns:CheckoutHeader": {
-                "MERCHANT_ID": null,
-                "REFERENCE_ID": null,
-                "TIMESTAMP": null,
-                "PASSWORD": null // 	TODO: base64_encode(hash("sha256", MERCHANT_ID, passkey, TIMESTAMP));
+                "MERCHANT_ID": Const.MERCHANT.ID,
+                "REFERENCE_ID": null, // TODO: Get from params or separate argument?
+                "TIMESTAMP": timestamp,
+                "PASSWORD": BASE64.stringify(UTF8.parse(hash))
             }
         };
         soapClient.addSoapHeader(soapHeader, "", "tns", "tns:ns"); //soapHeader, name, namespace, xmlns

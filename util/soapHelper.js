@@ -23,13 +23,13 @@ var _baseRequest = request.defaults({
     }
 });
 
-exports.createSoapClient = function (service, options, callback) {
+exports.createSoapClient = function (service, options, callback, debug) {
 
     options = options || {};
 
     // Override soap module's request
     options.request = _baseRequest;
-    //require('request-debug')(options.request); // Debug Request
+    if(debug){  require('request-debug')(options.request);  }
 
     soap.createClient(service.url, options, function (err, client) {
         if (err) {
