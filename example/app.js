@@ -48,7 +48,7 @@ app.post('/checkout/:action(request|confirm)', function (req, res, next) {
 
             checkoutService.requestCheckout(cart, function(err, resp) {
                 console.error(err);
-                console.error(resp.toJSON().body);
+                var data = resp.toJSON().body;
 
                 // Now if ok show message to user and allow them to confirm
                 // ...

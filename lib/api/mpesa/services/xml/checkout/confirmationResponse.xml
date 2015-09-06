@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="tns:ns">
+    <SOAP-ENV:Body>
+        <ns1:transactionConfirmResponse>
+            <RETURN_CODE></RETURN_CODE>
+            <DESCRIPTION></DESCRIPTION>
+            <MERCHANT_TRANSACTION_ID></MERCHANT_TRANSACTION_ID>
+            <TRX_ID></TRX_ID>
+        </ns1:transactionConfirmResponse>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
