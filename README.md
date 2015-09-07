@@ -3,10 +3,16 @@
 #### Goal
 
 Simplify interactions with the official [M-PESA API](http://www.safaricom.co.ke/business/m-pesa/api).
-
+:construction: `Work in progress...`
 
 #### Usage
-:construction: `Work in progress...`
+
+##### Intsall
+
+```shell
+$ npm install pesajs
+
+```
 
 ##### Initialize
 
