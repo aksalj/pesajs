@@ -5,6 +5,8 @@
 Simplify interactions with the official [M-PESA API](http://www.safaricom.co.ke/business/m-pesa/api).
 :construction: `Work in progress...`
 
+######Important: Currently, unless you have a working `paybill`/`buygoods` account and have been cleared (i.e. fill some more forms, send them to Safaricom and wait for approval), you can't test your integration.
+
 #### Usage
 
 ##### Intsall
