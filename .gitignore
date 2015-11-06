@@ -51,3 +51,7 @@ node_modules/
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
+# node modules
+node_modules
+example/node_modules
+*.log
