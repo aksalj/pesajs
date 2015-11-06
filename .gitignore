@@ -54,3 +54,4 @@ node_modules/
 # node modules
 node_modules
 example/node_modules
+*.log
