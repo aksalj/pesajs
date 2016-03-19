@@ -2,10 +2,9 @@
 
 #### Goal
 
-Simplify interactions with the official [M-PESA API](http://www.safaricom.co.ke/business/m-pesa/api).
-:construction: `Work in progress...`
+Simplify interactions with the official (`horribly documented`) [M-PESA API](http://www.safaricom.co.ke/business/m-pesa/api).
 
-> `Important`: Unless you have a working `paybill`/`buygoods` account and have been cleared i.e. fill some more forms, send them to Safaricom and wait for approval :cry:, you can't test your integration.
+> `Important`: :construction: `Work in progress, use in production at your own risk!` 
 
 #### Usage
 
