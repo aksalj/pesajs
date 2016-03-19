@@ -49,7 +49,7 @@ checkoutService.requestCheckout(cart, function(err, data) {
     var msg = data.Message;
     
     // Keep mpesa transaction id so you can use it to confirm transaction.
-    var transaction = data.TXN_MPESA
+    transaction = data.TXN_MPESA
 });
 
 // Confirm transaction
