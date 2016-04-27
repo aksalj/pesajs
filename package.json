@@ -1,5 +1,5 @@
 {
-  "name": "pesajs",
+  "name": "mpesa",
   "version": "0.0.1",
   "description": "M-Pesa API helper",
   "homepage": "https://github.com/aksalj/pesajs",
@@ -9,14 +9,14 @@
   },
   "bugs": {
     "url": "https://github.com/aksalj/pesajs/issues",
-    "email": "aksalj@aksalj.me"
+    "email": "aksalj@aksalj.com"
   },
   "keywords": [
     "mpesa",
     "mobile money",
     "safaricom"
   ],
-  "author": "Salama AB <aksalj@aksalj.me>",
+  "author": "Salama AB <aksalj@aksalj.com>",
   "license": "MIT",
   "engineStrict": true,
   "engines": {
@@ -24,7 +24,6 @@
   },
   "dependencies": {
     "crypto-js": "^3.1.5",
-    "lodash": "^3.10.1",
     "request": "^2.61.0",
     "soap": "^0.14.0"
   },

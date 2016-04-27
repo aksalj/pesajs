@@ -35,6 +35,7 @@ node_modules
 
 ## Directory-based project format:
 .idea/
+example/
 # if you remove the above rule, at least ignore the following:
 
 # User-specific stuff:
@@ -67,6 +68,7 @@ node_modules
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
+doc/
 
 # JIRA plugin
 atlassian-ide-plugin.xml
