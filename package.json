@@ -24,11 +24,7 @@
   },
   "dependencies": {
     "crypto-js": "^3.1.5",
-    "request": "^2.61.0",
-    "soap": "^0.14.0"
-  },
-  "devDependencies": {
-    "request-debug": "*"
+    "easysoap": "^1.0.5"
   },
   "main": "index.js"
 }
