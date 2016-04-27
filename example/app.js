@@ -14,11 +14,11 @@
 var express = require("express");
 var bodyParser = require('body-parser');
 var randomstring = require("randomstring");
-var pesajs = require("../index");
+var morgan = require('morgan');
 
-var MPesa = pesajs.MPESA({
-    ID: "898945",
-    PassKey: "SuperSecretPassKey",
+var MPesa = require("../index")({
+    id: "898945",
+    passkey: "SuperSecretPassKey",
     debug: false
 });
 
@@ -26,6 +26,7 @@ var MPesa = pesajs.MPESA({
 var checkoutService = new MPesa.CheckoutService();
 
 var app = express();
+app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('static'));
 

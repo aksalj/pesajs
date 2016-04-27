@@ -11,7 +11,7 @@ Simplify interactions with the official (`horribly documented`) [M-PESA API](htt
 ##### Intsall
 
 ```shell
-$ npm install pesajs
+$ npm install mpesa
 
 ```
 
@@ -19,12 +19,10 @@ $ npm install pesajs
 
 ```javascript
 
-var pesajs = require("pesajs");
-
-var MPesa = pesajs.MPESA({
-    ID: MERCHANT_ID,
-    PassKey: MERCHANT_PASSKEY,
-    debug: true // false in production!
+var MPesa = require("mpesa")({
+    id: "783561549", // Merchant ID
+    passkey: "monkey-boss",
+    debug: true
 });
 
 ```
