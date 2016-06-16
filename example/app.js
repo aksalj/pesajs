@@ -1,8 +1,8 @@
 /**
  *  Copyright (c) 2015 Salama AB
  *  All rights reserved
- *  Contact: aksalj@aksalj.me
- *  Website: http://www.aksalj.me
+ *  Contact: aksalj@aksalj.com
+ *  Website: http://www.aksalj.com
  *
  *  Project : pesajs
  *  File : app
@@ -11,21 +11,22 @@
  *
  */
 'use strict';
-var express = require("express");
-var bodyParser = require('body-parser');
-var randomstring = require("randomstring");
-var morgan = require('morgan');
+const express = require("express");
+const bodyParser = require('body-parser');
+const randomstring = require("randomstring");
+const morgan = require('morgan');
 
-var MPesa = require("../index")({
+const MPesa = require("../index")({
     id: "898945",
     passkey: "SuperSecretPassKey",
-    debug: false
+    debug: true
 });
 
 
-var checkoutService = new MPesa.CheckoutService();
+const checkoutService = new MPesa.CheckoutService();
 
-var app = express();
+const app = express();
+
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('static'));
@@ -35,13 +36,13 @@ app.post('/checkout/:action(request|confirm)', function (req, res, next) {
     switch(req.params.action) {
         case "request":
 
-            var transaction = randomstring.generate();
-            var ref = req.body.reference;
-            var phone = req.body.phone;
-            var amount = req.body.amount;
+            let transaction = randomstring.generate();
+            let ref = req.body.reference;
+            let phone = req.body.phone;
+            let amount = req.body.amount;
 
 
-            var cart = new MPesa.Cart(transaction, ref, phone, amount, "http://awesome-store.co.ke/ipn");
+            let cart = new MPesa.Cart(transaction, ref, phone, amount, "http://awesome-store.co.ke/ipn");
             cart.Details = "Additional transaction details if any";
 
             checkoutService.requestCheckout(cart, function(err, data) {
@@ -65,7 +66,7 @@ app.post('/checkout/:action(request|confirm)', function (req, res, next) {
             break;
         case "confirm":
 
-            var args = {
+            let args = {
                 Transaction: req.body.transaction,
                 TXN_MPESA: req.body.mpesa_transaction
             };
@@ -94,12 +95,12 @@ app.post('/checkout/:action(request|confirm)', function (req, res, next) {
 
 app.post("/ipn", checkoutService.paymentNotification, function(req, res) {
     // Do whatever with payment info like confirm purchase, init shipping, send download link, etc.
-    var ipn = req.payment;
+    let ipn = req.payment;
     console.log(ipn);
 });
 
 app.get("/status", function(req, res) {
-    var args = {
+    let args = {
         Transaction: randomstring.generate(),
         TXN_MPESA: randomstring.generate()
     };
@@ -112,8 +113,8 @@ app.get("/status", function(req, res) {
 
 
 var server = app.listen(3000, function () {
-    var host = server.address().address;
-    var port = server.address().port;
+    let host = server.address().address;
+    let port = server.address().port;
 
     console.log('Example app listening at http://%s:%s', host, port);
 });

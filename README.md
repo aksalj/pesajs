@@ -4,7 +4,7 @@
 
 Simplify interactions with the official (`horribly documented`) [M-PESA API](http://www.safaricom.co.ke/business/m-pesa/api).
 
-> `Important`: :construction: `Work in progress, use in production at your own risk!` 
+> `Important`: :construction: `Work in progress, NOT ready for use in production` 
 
 #### Usage
 
