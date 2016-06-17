@@ -1,5 +1,5 @@
 {
-  "name": "mpesa",
+  "name": "pesajs",
   "version": "0.0.1",
   "description": "M-Pesa API helper",
   "homepage": "https://github.com/aksalj/pesajs",
@@ -24,8 +24,11 @@
   },
   "dependencies": {
     "crypto-js": "^3.1.6",
-    "easysoap": "^1.0.5",
-    "ssl-root-cas": "^1.1.10"
+    "request": "^2.72.0",
+    "xml2json": "^0.9.1"
   },
-  "main": "index.js"
+  "main": "index.js",
+  "devDependencies": {
+    "request-debug": "^0.2.0"
+  }
 }

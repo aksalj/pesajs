@@ -8,73 +8,76 @@ Simplify interactions with the official (`horribly documented`) [M-PESA API](htt
 
 #### Usage
 
-##### Intsall
 
 ```shell
-$ npm install mpesa
+$ npm install pesajs
 
 ```
 
-##### Initialize
-
-```javascript
-
-var MPesa = require("mpesa")({
-    id: "783561549", // Merchant ID
-    passkey: "monkey-boss",
-    debug: true
-});
-
-```
-
-
-
-#### Features
 
 - **Online checkout (`Lipa Na M-Pesa`)**: According to Safaricom, this is a "*Web service for integrating the M-Pesa 
 Checkout API to a merchant site. The overall scope of this Web service is to provide primitives for application developers 
 to handle checkout process in a simple way*."
 
+**Initiate Lipa Na M-Pesa online payment**
+
 ```javascript
-var checkoutService = new MPesa.CheckoutService();
+const PesaJs = require("pesajs");
 
-// Initiate Lipa Na M-Pesa online checkout
+let options = {
+    merchant: "YOUR_MERCHANT_ID",
+    passkey: "YOUR_PASSKEY",
+    //debug: false || true
+};
+let paymentService = new PesaJs.LipaNaMpesa(options);
 
-var cart = new MPesa.Cart(MY_TRANSACTION_ID, MY_REFERENCE, USER_MPESA_NUMBER, AMOUNT, MY_CALLBACK_URL);
-checkoutService.requestCheckout(cart, function(err, data) {
+
+let cart = {
+    transaction: MY_TRANSACTION_ID,
+    ref: MY_REFERENCE,
+    account: USER_MPESA_NUMBER,
+    amount: AMOUNT,
+    callbackUrl: MY_CALLBACK_URL,
+    details: "Additional transaction details if any"
+};
+paymentService.requestPayment(cart).then(function(data) {
 
     // Now display M-Pesa message to user
-    var msg = data.Message;
+    let msg = data.message;
     
     // Keep mpesa transaction id so you can use it to confirm transaction.
-    var transaction = data.TXN_MPESA
+    let mpesa_txn = data.mpesa_txn
 });
 
-// Confirm transaction
+```
 
-var params = {
-    Transaction: MY_TRANSACTION, 
-    TXN_MPESA: transaction
+**Confirm payment request**
+```javascript
+let params = {
+    transaction: MY_TRANSACTION, 
+    mpesa_txn: mpesa_txn
 };
-checkoutService.confirmCheckout(params, function(err, data) {
+paymentService.confirmPayment(params).then(function(data) {
     
     // User should see a USSD menu on their phone at this point.
     // Now relax and wait for M-Pesa to notify you of the payment
 
 });
+```
 
+**Receive payment notification**
+```javascript
 // Wait for payment notification (example using express)
-
-app.post("/ipn", checkoutService.paymentNotification, function(req, res) {
+app.post("/ipn", paymentService.paymentNotification, function(req, res) {
     
     // Do whatever with payment info like confirm purchase, init shipping, send download link, etc.
-    var ipn = req.payment;
+    let paymentData = req.payment;
    
 });
 
-
 ```
 
+See the [example](example/app.js) app for a working demo.
 
 - **Paybill and Buygoods validation &amp; confirmation**: `TODO`
 

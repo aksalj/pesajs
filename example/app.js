@@ -16,14 +16,13 @@ const bodyParser = require('body-parser');
 const randomstring = require("randomstring");
 const morgan = require('morgan');
 
-const MPesa = require("../index")({
-    id: "898945",
+const PesaJs = require("../index");
+
+const paymentService = new PesaJs.LipaNaMpesa({
+    merchant: "320320",
     passkey: "SuperSecretPassKey",
     debug: true
 });
-
-
-const checkoutService = new MPesa.CheckoutService();
 
 const app = express();
 
@@ -35,43 +34,42 @@ app.post('/checkout/:action(request|confirm)', function (req, res, next) {
 
     switch(req.params.action) {
         case "request":
+            
+            let cart = {
+                transaction: randomstring.generate(),
+                ref: req.body.reference,
+                account: req.body.phone,
+                amount: req.body.amount,
+                callbackUrl: "http://awesome-store.co.ke/ipn",
+                details: "Additional transaction details if any"
+            };
 
-            let transaction = randomstring.generate();
-            let ref = req.body.reference;
-            let phone = req.body.phone;
-            let amount = req.body.amount;
-
-
-            let cart = new MPesa.Cart(transaction, ref, phone, amount, "http://awesome-store.co.ke/ipn");
-            cart.Details = "Additional transaction details if any";
-
-            checkoutService.requestCheckout(cart, function(err, data) {
-                if(err) {
-                    console.error(err);
-                    res.sendStatus(500);
-                    return;
-                }
+            paymentService.requestPayment(cart).then((data) => {
                 console.info(data);
 
                 // Now if ok show message to user and allow them to confirm
                 // ...
 
                 res.send({
-                    transaction: transaction,
-                    mpesa_txn: data.TXN_MPESA,
-                    message: data.Message
+                    transaction: cart.transaction,
+                    mpesa_txn: data.mpesa_txn,
+                    message: data.message
                 });
-            });
+            }).catch((function(err) {
+                console.error(err);
+                res.status(500).send(err);
+            }));
+
 
             break;
         case "confirm":
 
             let args = {
-                Transaction: req.body.transaction,
-                TXN_MPESA: req.body.mpesa_transaction
+                transaction: req.body.transaction,
+                mpesa_txn: req.body.mpesa_transaction
             };
 
-            checkoutService.confirmCheckout(args, function(err, data) {
+            paymentService.confirmPayment(args).then(function(err, data) {
                 if(err) {
                     console.error(err);
                     res.sendStatus(500);
@@ -93,18 +91,18 @@ app.post('/checkout/:action(request|confirm)', function (req, res, next) {
 
 });
 
-app.post("/ipn", checkoutService.paymentNotification, function(req, res) {
+app.post("/ipn", paymentService.paymentNotification, function(req, res) {
     // Do whatever with payment info like confirm purchase, init shipping, send download link, etc.
     let ipn = req.payment;
     console.log(ipn);
 });
 
-app.get("/status", function(req, res) {
+app.get("/status/:transaction", function(req, res) {
     let args = {
-        Transaction: randomstring.generate(),
-        TXN_MPESA: randomstring.generate()
+        transaction: req.params.transaction,
+        mpesa_txn: null
     };
-    checkoutService.getTransactionStatus(args, function(err, data) {
+    paymentService.getPaymentStatus(args).then(function(err, data) {
         console.error(err);
         console.error(data);
         res.send(data);
@@ -112,9 +110,9 @@ app.get("/status", function(req, res) {
 });
 
 
-var server = app.listen(3000, function () {
+var server = app.listen(process.env.PORT || 3000, function () {
     let host = server.address().address;
     let port = server.address().port;
 
-    console.log('Example app listening at http://%s:%s', host, port);
+    console.log('Shopping app listening at http://%s:%s', host, port);
 });
