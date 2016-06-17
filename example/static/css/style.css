@@ -69,6 +69,11 @@ nav ul li a:hover {
     display: none;
 }
 
+#mpesaMsg {
+    padding: 5px;
+    text-align: center;
+}
+
 .shopping-cart {
     margin: 20px 0;
     float: right;

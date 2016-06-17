@@ -19,7 +19,7 @@
         }
 
         if($(this).html() === "OK"){
-            window.reload();
+            location.reload();
             return;
         }
 
@@ -58,9 +58,10 @@
             data : formData
         }).done(function(data) {
 
+            $("#btnPay").removeClass("disabled");
+
             if(action === "request") {
                 // If no error
-                $("#btnPay").removeClass("disabled");
                 $("#btnPay").html("Confirm");
 
                 $("#transaction").val(data.transaction);
@@ -76,7 +77,18 @@
                 $("#mpesaMsg").html(data.message);
                 $("#btnPay").html("OK");
             }
-            console.error(data);
+
+        }).error(function(err) {
+
+            var data = err.responseJSON;
+
+            $("#phoneNumberInput").fadeToggle("fast", function() {
+                $("#btnPay").removeClass("disabled");
+                $("#mpesaMsg").html(data.description || "Oops :(");
+                $("#btnPay").html("OK");
+            });
+
+
         });
 
         // stop the form from submitting the normal way and refreshing the page

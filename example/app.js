@@ -1,8 +1,8 @@
 /**
  *  Copyright (c) 2015 Salama AB
  *  All rights reserved
- *  Contact: aksalj@aksalj.me
- *  Website: http://www.aksalj.me
+ *  Contact: aksalj@aksalj.com
+ *  Website: http://www.aksalj.com
  *
  *  Project : pesajs
  *  File : app
@@ -11,21 +11,22 @@
  *
  */
 'use strict';
-var express = require("express");
-var bodyParser = require('body-parser');
-var randomstring = require("randomstring");
-var pesajs = require("../index");
+const express = require("express");
+const bodyParser = require('body-parser');
+const randomstring = require("randomstring");
+const morgan = require('morgan');
 
-var MPesa = pesajs.MPESA({
-    ID: "898945",
-    PassKey: "SuperSecretPassKey",
-    debug: false
+const PesaJs = require("../index");
+
+const paymentService = new PesaJs.LipaNaMpesa({
+    merchant: "320320",
+    passkey: "SuperSecretPassKey",
+    debug: true
 });
 
+const app = express();
 
-var checkoutService = new MPesa.CheckoutService();
-
-var app = express();
+app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('static'));
 
@@ -33,43 +34,42 @@ app.post('/checkout/:action(request|confirm)', function (req, res, next) {
 
     switch(req.params.action) {
         case "request":
+            
+            let cart = {
+                transaction: randomstring.generate(),
+                ref: req.body.reference,
+                account: req.body.phone,
+                amount: req.body.amount,
+                callbackUrl: "http://awesome-store.co.ke/ipn",
+                details: "Additional transaction details if any"
+            };
 
-            var transaction = randomstring.generate();
-            var ref = req.body.reference;
-            var phone = req.body.phone;
-            var amount = req.body.amount;
-
-
-            var cart = new MPesa.Cart(transaction, ref, phone, amount, "http://awesome-store.co.ke/ipn");
-            cart.Details = "Additional transaction details if any";
-
-            checkoutService.requestCheckout(cart, function(err, data) {
-                if(err) {
-                    console.error(err);
-                    res.sendStatus(500);
-                    return;
-                }
+            paymentService.requestPayment(cart).then((data) => {
                 console.info(data);
 
                 // Now if ok show message to user and allow them to confirm
                 // ...
 
                 res.send({
-                    transaction: transaction,
-                    mpesa_txn: data.TXN_MPESA,
-                    message: data.Message
+                    transaction: cart.transaction,
+                    mpesa_txn: data.mpesa_txn,
+                    message: data.message
                 });
-            });
+            }).catch((function(err) {
+                console.error(err);
+                res.status(500).send(err);
+            }));
+
 
             break;
         case "confirm":
 
-            var args = {
-                Transaction: req.body.transaction,
-                TXN_MPESA: req.body.mpesa_transaction
+            let args = {
+                transaction: req.body.transaction,
+                mpesa_txn: req.body.mpesa_transaction
             };
 
-            checkoutService.confirmCheckout(args, function(err, data) {
+            paymentService.confirmPayment(args).then(function(err, data) {
                 if(err) {
                     console.error(err);
                     res.sendStatus(500);
@@ -91,18 +91,18 @@ app.post('/checkout/:action(request|confirm)', function (req, res, next) {
 
 });
 
-app.post("/ipn", checkoutService.paymentNotification, function(req, res) {
+app.post("/ipn", paymentService.paymentNotification, function(req, res) {
     // Do whatever with payment info like confirm purchase, init shipping, send download link, etc.
-    var ipn = req.payment;
+    let ipn = req.payment;
     console.log(ipn);
 });
 
-app.get("/status", function(req, res) {
-    var args = {
-        Transaction: randomstring.generate(),
-        TXN_MPESA: randomstring.generate()
+app.get("/status/:transaction", function(req, res) {
+    let args = {
+        transaction: req.params.transaction,
+        mpesa_txn: null
     };
-    checkoutService.getTransactionStatus(args, function(err, data) {
+    paymentService.getPaymentStatus(args).then(function(err, data) {
         console.error(err);
         console.error(data);
         res.send(data);
@@ -110,9 +110,9 @@ app.get("/status", function(req, res) {
 });
 
 
-var server = app.listen(3000, function () {
-    var host = server.address().address;
-    var port = server.address().port;
+var server = app.listen(process.env.PORT || 3000, function () {
+    let host = server.address().address;
+    let port = server.address().port;
 
-    console.log('Example app listening at http://%s:%s', host, port);
+    console.log('Shopping app listening at http://%s:%s', host, port);
 });

@@ -1,8 +1,8 @@
 /**
  *  Copyright (c) 2015 Salama AB
  *  All rights reserved
- *  Contact: aksalj@aksalj.me
- *  Website: http://www.aksalj.me
+ *  Contact: aksalj@aksalj.com
+ *  Website: http://www.aksalj.com
  *
  *  Project : pesajs
  *  File : index.js
@@ -12,4 +12,4 @@
  */
 'use strict';
 
-exports.MPESA = require("./lib/api/mpesa");
+exports = module.exports = require("./lib/index");
