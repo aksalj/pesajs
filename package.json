@@ -28,7 +28,14 @@
     "xml2json": "^0.9.1"
   },
   "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha",
+    "example": "cd example && node start"
+  },
   "devDependencies": {
+    "chai": "^3.5.0",
+    "istanbul": "^0.4.3",
+    "mocha": "^2.5.3",
     "request-debug": "^0.2.0"
   }
 }
