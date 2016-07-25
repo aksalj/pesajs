@@ -19,8 +19,8 @@ const morgan = require('morgan');
 const PesaJs = require("../index");
 
 const paymentService = new PesaJs.LipaNaMpesa({
-    merchant: "320320",
-    passkey: "SuperSecretPassKey",
+    merchant: "898998",
+    passkey: "a8eac82d7ac1461ba0348b0cb24d3f8140d3afb9be864e56a10d7e8026eaed66",
     debug: true
 });
 
