@@ -19,53 +19,61 @@ $ npm install pesajs
 Checkout API to a merchant site. The overall scope of this Web service is to provide primitives for application developers 
 to handle checkout process in a simple way*."
 
-**Initiate Lipa Na M-Pesa online payment**
+**Initiate `Lipa Na M-Pesa` online payment**
 
 ```javascript
 const PesaJs = require("pesajs");
 
 let options = {
     merchant: "YOUR_MERCHANT_ID",
-    passkey: "YOUR_PASSKEY",
+    passkey: "YOUR_PASSKEY"
     //debug: false || true
 };
 let paymentService = new PesaJs.LipaNaMpesa(options);
 
 
-let cart = {
+let requestData = {
     transaction: MY_TRANSACTION_ID,
     ref: MY_REFERENCE,
     account: USER_MPESA_NUMBER,
-    amount: AMOUNT,
+    amount: AMOUNT, // in Ksh
     callbackUrl: MY_CALLBACK_URL,
     details: "Additional transaction details if any"
 };
-paymentService.requestPayment(cart).then(function(data) {
+paymentService.requestPayment(requestData)
+    .then(function(data) {
 
-    // Now display M-Pesa message to user
-    let msg = data.message;
+        // Now display M-Pesa message to user
+        let msg = data.message;
     
-    // Keep mpesa transaction id so you can use it to confirm transaction.
-    let mpesa_txn = data.mpesa_txn
-});
+        // Keep mpesa transaction id somewhere, so you can use it to confirm transaction (next step).
+        mpesa_txn = data.mpesa_txn
+    })
+    .catch(function(error){
+        // Oops, something went wrong!
+    });
 
 ```
 
 **Confirm payment request**
+
 ```javascript
 let params = {
     transaction: MY_TRANSACTION, 
     mpesa_txn: mpesa_txn
 };
-paymentService.confirmPayment(params).then(function(data) {
-    
-    // User should see a USSD menu on their phone at this point.
-    // Now relax and wait for M-Pesa to notify you of the payment
-
-});
+paymentService.confirmPayment(params)
+    .then(function(data) {
+        // User should see a USSD menu on their phone at this point.
+        // Now relax and wait for M-Pesa to notify you of the payment
+    })
+    .catch(function(error){
+        // Oops, something went wrong!
+    });
 ```
 
 **Receive payment notification**
+
 ```javascript
 // Wait for payment notification (example using express)
 app.post("/ipn", paymentService.paymentNotification, function(req, res) {
