@@ -2,7 +2,7 @@
 
 #### Goal
 
-Simplify interactions with the official (`horribly documented`) [M-PESA API](http://www.safaricom.co.ke/business/m-pesa/api).
+Simplify interactions with the official (`horribly documented`) [M-PESA API](http://www.safaricom.co.ke/personal/m-pesa/do-more-with-m-pesa/m-pesa-api).
 
 > `Important`: :construction:  Work in progress, **NOT** ready for use in production
 
