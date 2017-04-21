@@ -2,7 +2,7 @@
 
 #### Goal
 
-Simplify interactions with the official (`horribly documented`) [M-PESA API](http://www.safaricom.co.ke/personal/m-pesa/do-more-with-m-pesa/m-pesa-api).
+Simplify interactions with the official (`horribly documented`) [M-PESA API](https://www.safaricom.co.ke/personal/m-pesa/do-more-with-m-pesa/m-pesa-api).
 
 > `Important`: Get your `Merchant ID` and `Pass Key` when you register for MPESA API with Safaricom.
 
